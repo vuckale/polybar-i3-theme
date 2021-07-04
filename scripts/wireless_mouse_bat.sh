@@ -42,3 +42,5 @@ else
 	echo "X"
 	echo "$(date) ${PWD##*/}/`basename "$0"`: no upower installed" >> ../log.txt
 fi
+
+# TODO: line 26 status not displaying correctly

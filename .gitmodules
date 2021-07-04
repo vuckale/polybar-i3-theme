@@ -1,0 +1,3 @@
+[submodule "scripts/weather-channel-scraper"]
+	path = scripts/weather-channel-scraper
+	url = git@github.com:vuckale/weather-channel-scraper.git

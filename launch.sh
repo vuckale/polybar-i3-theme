@@ -55,8 +55,9 @@ run() {
     logfile="$HOME/.config/polybar/log.txt"
     current_date_time=$( echo "$(date)" )
     echo "launching polybar: $current_date_time" >> $logfile
-    polybar --config=~/.config/polybar/configi3.ini top >> $logfile 2>&1 & disown
-    polybar --config=~/.config/polybar/configi3.ini i3bar >> $logfile  2>&1 & disown
+    polybar --config=~/.config/polybar/polybar-i3-theme/config.ini top 2>&1 & disown
+    polybar --config=~/.config/polybar/polybar-i3-theme/config.ini i3bar 2>&1 & disown
+    echo "polybar top" >> $logfile
     echo "finished launching polybar..." >> $logfile
 }
 
