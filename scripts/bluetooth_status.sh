@@ -1,4 +1,5 @@
 #!/bin/bash
+
 if [ ! "$( which rfkill )" = "" ]; then
 	status=$( rfkill list | grep -A2 Bluetooth )
 	if [ ! -z "$status" ]; then

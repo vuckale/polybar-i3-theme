@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+ROOT="$HOME/.config/i3/polybar-i3-theme"
+
 # clean up before starting a new polybar instance
 clean_up() {
     # terminate already running bar instances
@@ -20,10 +22,10 @@ color_env() {
     }
 
     COLOR="nord.ini"
-    BACKGROUND=$(grep "background "  ~/.config/polybar/colors/$COLOR | cut -d'=' -f2 | sed 's/ //g')
-    FOREGROUND=$(grep "foreground "  ~/.config/polybar/colors/$COLOR | cut -d'=' -f2 | sed 's/ //g')
-    FOREGROUND_ALT=$(grep "foreground-alt"  ~/.config/polybar/colors/$COLOR | cut -d'=' -f2 | sed 's/ //g')
-    ALERT=$(grep "alert"  ~/.config/polybar/colors/$COLOR | cut -d'=' -f2 | sed 's/ //g')
+    BACKGROUND=$(grep "background "  $ROOT/colors/$COLOR | cut -d'=' -f2 | sed 's/ //g')
+    FOREGROUND=$(grep "foreground "  $ROOT/colors/$COLOR | cut -d'=' -f2 | sed 's/ //g')
+    FOREGROUND_ALT=$(grep "foreground-alt"  $ROOT/colors/$COLOR | cut -d'=' -f2 | sed 's/ //g')
+    ALERT=$(grep "alert"  $ROOT/colors/$COLOR | cut -d'=' -f2 | sed 's/ //g')
     DATE_MODULE_HELPER="%{F$FOREGROUND_ALT}󰑄%{F-} %H:%M"
     DATE_MODULE_HELPER_ALT="%{F$FOREGROUND_ALT}󰑄 %{A1:gnome-control-center datetime:}󰃰%{A}%{F-} %H:%M:%S"
     DATE_MODULE_CALENDAR="%a %b %d %Y %{A1:gnome-calendar:}%{F$FOREGROUND_ALT}󰃭%{F-}%{A}"
@@ -55,8 +57,8 @@ run() {
     logfile="$HOME/.config/polybar/log.txt"
     current_date_time=$( echo "$(date)" )
     echo "launching polybar: $current_date_time" >> $logfile
-    polybar --config=~/.config/polybar/polybar-i3-theme/config.ini top 2>&1 & disown
-    polybar --config=~/.config/polybar/polybar-i3-theme/config.ini i3bar 2>&1 & disown
+    polybar --config="$ROOT"/config.ini top 2>&1 & disown
+    polybar --config="$ROOT"/config.ini i3bar 2>&1 & disown
     echo "polybar top" >> $logfile
     echo "finished launching polybar..." >> $logfile
 }
