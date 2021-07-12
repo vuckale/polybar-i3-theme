@@ -31,3 +31,5 @@ case "$1" in
         fi
         ;;
 esac
+
+# TODO: notify when not able to unmount
