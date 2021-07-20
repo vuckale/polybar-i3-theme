@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-ROOT="$HOME/.config/i3/polybar-i3-theme"
+ROOT="$HOME/.config/polybar/polybar-i3-theme"
 
 # clean up before starting a new polybar instance
 clean_up() {
