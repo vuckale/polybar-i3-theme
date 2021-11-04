@@ -8,7 +8,6 @@ clean_up() {
     killall -q polybar
 }
 
-
 # parse colors from $COLOR as environment variables and export as env variables
 color_env() {
 
@@ -21,7 +20,7 @@ color_env() {
         echo $res
     }
 
-    COLOR="nord.ini"
+    COLOR="retro_var1.ini"
     BACKGROUND=$(grep "background "  $ROOT/colors/$COLOR | cut -d'=' -f2 | sed 's/ //g')
     FOREGROUND=$(grep "foreground "  $ROOT/colors/$COLOR | cut -d'=' -f2 | sed 's/ //g')
     FOREGROUND_ALT=$(grep "foreground-alt"  $ROOT/colors/$COLOR | cut -d'=' -f2 | sed 's/ //g')
@@ -56,19 +55,23 @@ hwmon() {
 run() {
     logfile="$HOME/.config/polybar/log.txt"
     current_date_time=$( echo "$(date)" )
-    echo "launching polybar: $current_date_time" >> $logfile
+    echo "launching polybar: $current_date_time" > $logfile
     polybar --config="$ROOT"/config.ini top 2>&1 & disown
     polybar --config="$ROOT"/config.ini i3bar 2>&1 & disown
-    echo "polybar top" >> $logfile
-    echo "finished launching polybar..." >> $logfile
+    echo "polybar top" > $logfile
+    echo "finished launching polybar..." > $logfile
 }
 
 # call all above functions in order
 main() {
-    clean_up
-    color_env
-    hwmon
-    run
+    if [[ "$( which gawk )" = ""  ||  "$( which bc )" = "" ||  "$( which grep )" = "" ]]; then
+        echo "Missing packages: please run 'sudo apt-get install gawk bc grep'"
+    else
+        clean_up
+        color_env
+        hwmon
+        run
+    fi
 }
 
 main
