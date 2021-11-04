@@ -33,3 +33,4 @@ case "$1" in
 esac
 
 # TODO: notify when not able to unmount
+# TODO: lsblk -r | grep /media | awk -F' ' '{print NF}' --> returns where to cut
