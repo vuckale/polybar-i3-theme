@@ -8,8 +8,8 @@ if [ ! $( which upower ) == "" ]; then
 		 awk -F' ' '{print $3}' )
 	done
 	if [ -d $sysclass ]; then
-		device=$(echo ${sysclass} | sed 's:.*/::')
-		device_alt="mouse_$device"
+		# device=$(echo ${sysclass} | sed 's:.*/::')
+		# device_alt="mouse_$device"
 		upower="upower -i /org/freedesktop/UPower/devices"
 		mouse_charging_status=$(cat ${sysclass}/status)
 		state=$($upower/$device_alt | grep "percentage" | tr -d -c 0-9)
@@ -44,3 +44,4 @@ else
 fi
 
 # TODO: line 26 status not displaying correctly
+# upower --dump
