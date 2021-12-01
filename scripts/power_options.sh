@@ -1,9 +1,9 @@
 #!/bin/bash
 
-ask=`zenity --list --title="WHATEVER Options" --column="0" "Power Off" "Reboot" --width=100 --height=300 --hide-header`
+ask=`zenity --list --title="󰐥" --column="0" "Power Off" "Reboot" --width=100 --height=300 --hide-header`
 
 if [ "$ask" == "Power Off" ]; then
-    poweroff
+    shutdown now
 fi
 
 if [ "$ask" == "Reboot" ]; then

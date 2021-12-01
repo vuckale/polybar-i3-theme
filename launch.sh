@@ -20,7 +20,7 @@ color_env() {
         echo $res
     }
 
-    COLOR="retro_var1.ini"
+    COLOR="nord.ini"
     BACKGROUND=$(grep "background "  $ROOT/colors/$COLOR | cut -d'=' -f2 | sed 's/ //g')
     FOREGROUND=$(grep "foreground "  $ROOT/colors/$COLOR | cut -d'=' -f2 | sed 's/ //g')
     FOREGROUND_ALT=$(grep "foreground-alt"  $ROOT/colors/$COLOR | cut -d'=' -f2 | sed 's/ //g')
