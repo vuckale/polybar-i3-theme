@@ -53,7 +53,7 @@ hwmon() {
 
 # launch top-left, top and top-right from config
 run() {
-    logfile="$HOME/.config/polybar/log.txt"
+    logfile="$HOME/.config/polybar/polybar-i3-theme/log.txt"
     current_date_time=$( echo "$(date)" )
     echo "launching polybar: $current_date_time" > $logfile
     polybar --config="$ROOT"/config.ini top 2>&1 & disown

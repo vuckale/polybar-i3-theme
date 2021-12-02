@@ -3,11 +3,11 @@
 ask=`zenity --list --title="󰐥" --column="0" "Power Off" "Reboot" --width=100 --height=300 --hide-header`
 
 if [ "$ask" == "Power Off" ]; then
-    shutdown now
+    /usr/sbin/shutdown now
 fi
 
 if [ "$ask" == "Reboot" ]; then
-    reboot
+    /usr/sbin/reboot
 fi
 
 # if [ "$ask" == "OPTION3" ]; then
