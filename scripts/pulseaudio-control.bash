@@ -13,7 +13,7 @@ AUTOSYNC="no"  # All programs have the same volume if enabled
 VOLUME_ICONS=( "󰕿 " "󰖀 " "󰕾 " )  # Volume icons array, from lower volume to higher
 MUTED_ICON="󰸈 "  # Muted volume icon
 MUTED_COLOR="%{F$FOREGROUND_EMPTY}" # Color when the audio is muted
-VOLUME_COLOR="%{F$FOREGROUND}"
+VOLUME_COLOR="%{F$FOREGROUND}" # Color when the audio is unmuted
 NOTIFICATIONS="yes"  # Notifications when switching sinks if enabled
 SINK_ICON=""  # Icon always shown to the left of the default sink names
 # 󰀘
@@ -47,6 +47,11 @@ function getCurVol() {
     curVol=$(pacmd list-sinks | grep -A 15 'index: '"$1"'' | grep 'volume:' | grep -E -v 'base volume:' | awk -F : '{print $3; exit}' | grep -o -P '.{0,3}%' | sed 's/.$//' | tr -d ' ')
 }
 
+
+# Saves the sink passed by parameter's volume into a variable named `curVol`.
+function getCurPort() {
+    curPort=$(pacmd list-sinks | grep -A 65 'index: '"$1"'' | grep "active port" | cut -d' ' -f 3)
+}
 
 # Saves the name of the sink passed by parameter into a variable named
 # `sinkName`.
@@ -103,6 +108,23 @@ function volUp() {
 
     if [ $OSD = "yes" ]; then showOSD "$curSink"; fi
     if [ $AUTOSYNC = "yes" ]; then volSync; fi
+}
+
+
+function switchPort() {
+    if ! getCurSink; then
+        echo "PulseAudio not running"
+        return 1
+    fi
+    if ! getCurPort $curSink; then
+        echo "Error"
+        return 1
+    fi
+    if [ "$curPort" == "<analog-output-headphones>" ]; then
+        pacmd set-sink-port $curSink "analog-output-speaker"
+    elif [ "$curPort" == "<analog-output-speaker>" ]; then
+        pacmd set-sink-port $curSink "analog-output-headphones"
+    fi
 }
 
 
@@ -215,7 +237,6 @@ function nextSink() {
 
     if [ $NOTIFICATIONS = "yes" ]; then
         getNickname "$newSink"
-        
         if command -v dunstify &>/dev/null; then
             notify="dunstify --replace 201839192"
         else
@@ -290,13 +311,18 @@ function output() {
         volIcon=""
     fi
 
-    getNickname "$curSink"
-
+    getCurPort "$curSink"
+    # getNickname "$curSink"
+    if [ "$curPort" == "<analog-output-headphones>" ]; then
+        port=" 󰋋"
+    elif [ "$curPort" == "<analog-output-speaker>" ]; then
+        port=" 󰽟"
+    fi
     # Showing the formatted message
     if [ "$isMuted" = "yes" ]; then
-        echo "${MUTED_COLOR}${MUTED_ICON}${curVol}%  ${SINK_ICON}${nickname}${END_COLOR}"
+        echo "${MUTED_COLOR}${MUTED_ICON}${curVol}%  ${SINK_ICON}${port}${END_COLOR}"
     else
-        echo "${volIcon}${VOLUME_COLOR}${curVol}%%{F-} ${SINK_ICON}${nickname}"
+        echo "${volIcon}${VOLUME_COLOR}${curVol}%%{F-} ${SINK_ICON}${port}"
     fi
 }
 
@@ -351,7 +377,15 @@ case "$1" in
     output)
         output
         ;;
+    switchPort)
+        switchPort
+        ;;
     *)
         usage
         ;;
 esac
+
+# >_ pacmd set-sink-port 2 "analog-output-speaker"
+
+# >_ pacmd set-sink-port 2 "analog-output-headphones"
+
